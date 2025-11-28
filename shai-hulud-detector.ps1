@@ -228,14 +228,24 @@ if ([string]::IsNullOrWhiteSpace($Path)) {
 
         Write-Host "Checking path: $inputPath" -ForegroundColor Gray
 
-        if (-not (Test-Path $inputPath -PathType Container)) {
-            Write-Host "Error: Folder '$inputPath' does not exist!" -ForegroundColor Red
-            Write-Host "Please enter a valid path." -ForegroundColor Yellow
-            $Path = $null
+        # Test if path exists with proper error handling
+        try {
+            $pathExists = Test-Path -LiteralPath $inputPath -PathType Container -ErrorAction Stop
+
+            if (-not $pathExists) {
+                Write-Host "Error: Folder '$inputPath' does not exist!" -ForegroundColor Red
+                Write-Host "Please enter a valid path." -ForegroundColor Yellow
+                $Path = $null
+            }
+            else {
+                # Path is valid
+                $Path = $inputPath
+            }
         }
-        else {
-            # Path is valid
-            $Path = $inputPath
+        catch {
+            Write-Host "Error: Invalid path or cannot access '$inputPath'" -ForegroundColor Red
+            Write-Host "Details: $($_.Exception.Message)" -ForegroundColor Yellow
+            $Path = $null
         }
     } while ([string]::IsNullOrWhiteSpace($Path))
 
@@ -278,22 +288,31 @@ if ([string]::IsNullOrWhiteSpace($Path)) {
     Write-Host "Error: No scan path available. This should not happen!" -ForegroundColor Red
     exit 1
 } else {
-    $pathExists = Test-Path $Path -PathType Container
-    if ($pathExists) {
-        Write-Host "[✓] Scan Path: $Path" -ForegroundColor Green
+    try {
+        $pathExists = Test-Path -LiteralPath $Path -PathType Container -ErrorAction Stop
+        if ($pathExists) {
+            Write-Host "[✓] Scan Path: $Path" -ForegroundColor Green
 
-        # Show path info
-        try {
-            $pathInfo = Get-Item $Path
-            Write-Host "    Full path: $($pathInfo.FullName)" -ForegroundColor Gray
-        } catch {
-            # Ignore errors
+            # Show path info
+            try {
+                $pathInfo = Get-Item -LiteralPath $Path -ErrorAction Stop
+                Write-Host "    Full path: $($pathInfo.FullName)" -ForegroundColor Gray
+            } catch {
+                # Ignore errors
+            }
+        } else {
+            Write-Host "[✗] Scan Path: DOES NOT EXIST" -ForegroundColor Red
+            Write-Host "    Path: $Path" -ForegroundColor Gray
+            Write-Host ""
+            Write-Host "Error: The specified path does not exist!" -ForegroundColor Red
+            exit 1
         }
-    } else {
-        Write-Host "[✗] Scan Path: DOES NOT EXIST" -ForegroundColor Red
+    }
+    catch {
+        Write-Host "[✗] Scan Path: INVALID" -ForegroundColor Red
         Write-Host "    Path: $Path" -ForegroundColor Gray
+        Write-Host "    Error: $($_.Exception.Message)" -ForegroundColor Yellow
         Write-Host ""
-        Write-Host "Error: The specified path does not exist!" -ForegroundColor Red
         exit 1
     }
 }
@@ -2377,7 +2396,10 @@ function Invoke-Main {
         Main entry point
     #>
     param(
+        [Parameter(Mandatory=$true)]
+        [ValidateNotNullOrEmpty()]
         [string]$ScanDir,
+
         [bool]$ParanoidMode
     )
     
