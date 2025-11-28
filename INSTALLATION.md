@@ -40,8 +40,6 @@ That's it! The script handles everything else automatically.
 | Windows | 10/11 or Server 2016+ | ✅ Yes | - |
 | PowerShell | 5.1+ | ✅ Yes | Built into Windows |
 | Administrator | Yes | ✅ Yes | Auto-requested |
-| Node.js | Any | ⚠️ Recommended | For full npm analysis |
-| npm | Any | ⚠️ Recommended | For package verification |
 
 ### Pre-Flight Checklist
 
@@ -55,13 +53,7 @@ Before scanning, verify:
 2. ✅ **Admin access** available
    The script will prompt for elevation
 
-3. ✅ **Node.js/npm** installed (optional but recommended)
-   ```powershell
-   node --version
-   npm --version
-   ```
-
-4. ✅ **Execution Policy** allows scripts
+3. ✅ **Execution Policy** allows scripts
    ```powershell
    Get-ExecutionPolicy
    # If Restricted, run:
@@ -254,16 +246,6 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 - Click "Yes" on UAC dialog
 - If no dialog appears, right-click PowerShell → "Run as Administrator"
 - Then navigate to script and run
-
-### Issue: "npm not found"
-
-```
-[!] npm not found in system PATH
-```
-
-**Solution:**
-- Scanner still works! (limited functionality)
-- To enable full features: Install Node.js from [nodejs.org](https://nodejs.org/)
 
 ### Issue: "Path does not exist"
 

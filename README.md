@@ -54,11 +54,6 @@ This scanner identifies multiple supply chain attack patterns:
 - **PowerShell** 5.1 or higher
 - **Administrator Privileges** (automatically requested)
 
-### Optional (Recommended)
-- **Node.js** - For npm environment analysis
-- **npm** - For package verification
-- Internet connection for npm package checks
-
 ## 🚀 Quick Start
 
 ### Installation
