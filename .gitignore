@@ -1,0 +1,28 @@
+# Shai-Hulud Detector .gitignore
+
+# Claude Code folder (user-specific settings)
+.claude/
+
+# Generated scan reports and logs
+shai-hulud-report_*.txt
+*.log
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Windows system files
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# Editor files
+.vscode/
+.idea/
+*.suo
+*.user
+
+# Temporary development scripts
+translate-to-english.ps1
+fix-quotes.ps1
