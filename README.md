@@ -63,14 +63,20 @@ This scanner identifies multiple supply chain attack patterns:
 
 ### Installation
 
-1. **Download the scanner:**
-   ```powershell
-   git clone https://github.com/FritzDerFred/shai-hulud-detector.git
-   cd shai-hulud-detector
-   ```
+**Option A: Using Git (Recommended)**
+```powershell
+git clone https://github.com/FritzDerFred/-shai-hulud-powershell-beta-scanner.git
+cd -shai-hulud-powershell-beta-scanner
+.\shai-hulud-detector.ps1
+```
 
-2. **Run the scanner:**
+**Option B: Download from GitHub**
+1. Go to https://github.com/FritzDerFred/-shai-hulud-powershell-beta-scanner
+2. Click the green "Code" button → "Download ZIP"
+3. Extract the ZIP file to your desired location (e.g., `C:\Security\shai-hulud-scanner`)
+4. Open PowerShell and navigate to the extracted directory:
    ```powershell
+   cd "C:\Security\shai-hulud-scanner"
    .\shai-hulud-detector.ps1
    ```
 
